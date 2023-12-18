@@ -13,7 +13,12 @@ const io = new Server(server, {
     methods: ["GET", "POST"],
   },
 });
+app.use(express.static(path.join(__dirname, "../client/public")));
 
+// Handle requests to the root URL
+app.get("/", (req, res) => {
+  res.sendFile(path.join(__dirname, "../client/public", "index.html"));
+});
 io.on("connection", (socket) => {
   console.log(`User Connected: ${socket.id}`);
 
@@ -31,6 +36,7 @@ io.on("connection", (socket) => {
   });
 });
 
-server.listen(3001, () => {
-  console.log("SERVER RUNNING");
+const PORT = 3000;
+server.listen(PORT, () => {
+  console.log(`SERVER RUNNING ON PORT ${PORT}`);
 });
